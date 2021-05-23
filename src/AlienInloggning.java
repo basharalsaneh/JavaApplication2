@@ -1,4 +1,5 @@
 
+import java.awt.HeadlessException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -157,9 +158,7 @@ public class AlienInloggning extends javax.swing.JFrame {
                 txtPass.setText("");
                 txtUser.requestFocus();
             }                  
-        } catch (SQLException ex) {
-            Logger.getLogger(AlienInloggning.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
+        } catch (SQLException | HeadlessException ex) {
             Logger.getLogger(AlienInloggning.class.getName()).log(Level.SEVERE, null, ex);
         }
     
