@@ -1,3 +1,13 @@
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -9,14 +19,31 @@
  * @author macbook
  */
 public class NyttLosenord extends javax.swing.JFrame {
-
+    ResultSet resultat;
+    Statement statement;
+    PreparedStatement prepStatement;
+    Connection connection1;
     /**
      * Creates new form NyttLosenord
+     * @throws java.lang.Exception
      */
-    public NyttLosenord() {
+    public NyttLosenord() throws Exception {
         initComponents();
-    }
+        getConnection();
 
+    }
+      public final void getConnection() throws Exception{
+        try{
+        Class.forName("com.mysql.cj.jdbc.Driver"); // Tror den hämtar mysql driver och gör det möjligt att koppla upp till databasen.
+             connection1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/mibdb", "mibdba", "mibkey"); // Denna ska också på något sätt
+             // koppa upp till databasen. Ingen kod är "röd" men osäker på om projektet inte funkar pga att jag är "disconnected" från databasen eller inte.
+             System.out.println("Databasen kopplad till projektet, lyckats!");
+            
+        }
+        catch(ClassNotFoundException e){
+            System.out.println(e);
+        }
+     }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -106,6 +133,29 @@ public class NyttLosenord extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        
+        String ID = txtID.getText();
+        String nuvarandeLosenord = txtPassword.getText();
+        String nyttLosenord = txtNyttLosen.getText();
+        
+        
+        try{
+            String fraga = "UPDATE Agent SET Losenord = ? where "
+                   + "Agent_ID = '"+ID+"' and Losenord = '"+nuvarandeLosenord+"'";
+            
+           prepStatement = connection1.prepareStatement(fraga);
+           prepStatement.setString(1, nyttLosenord);
+           prepStatement.executeUpdate();
+                
+                    dispose();
+                    AgentInloggning inlogg = new AgentInloggning();
+                    inlogg.show();
+                
+        } catch (SQLException ex) {
+            Logger.getLogger(NyttLosenord.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(NyttLosenord.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
@@ -136,9 +186,11 @@ public class NyttLosenord extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
+        java.awt.EventQueue.invokeLater(() -> {
+            try {
                 new NyttLosenord().setVisible(true);
+            } catch (Exception ex) {
+                Logger.getLogger(NyttLosenord.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
     }
