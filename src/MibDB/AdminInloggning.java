@@ -18,6 +18,8 @@ import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import oru.inf.InfDB;
+import oru.inf.InfException;
 
 
 
@@ -32,7 +34,7 @@ public class AdminInloggning extends javax.swing.JFrame {
      * Creates new form AdminInloggning
      */
     
-    
+    private InfDB idb;
     ResultSet resultat = null;
     Statement statement = null;
     PreparedStatement prepStatement = null;
@@ -40,9 +42,10 @@ public class AdminInloggning extends javax.swing.JFrame {
     
     
     
-    public AdminInloggning() throws Exception {
+    public AdminInloggning(InfDB idb){
         initComponents();
-        getConnection();
+       
+        this.idb = idb;
     }
     
     
@@ -206,7 +209,7 @@ public class AdminInloggning extends javax.swing.JFrame {
         // TODO add your handling code here:
         
         this.dispose();
-        new Start().setVisible(true);
+        new Start(idb).setVisible(true);
     }//GEN-LAST:event_gåTillbakaActionPerformed
 
     /**

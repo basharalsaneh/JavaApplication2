@@ -30,8 +30,8 @@ public class Startklassen {
         }
         
         
-         new Start().setVisible(true);
-         new TestSQLfrågor(idb).setVisible(true);
+         new Start(idb).setVisible(true);
+         
         
     }
     

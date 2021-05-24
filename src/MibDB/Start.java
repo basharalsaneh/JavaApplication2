@@ -17,12 +17,15 @@ import oru.inf.InfException;
  * @author macbook
  */
 public class Start extends javax.swing.JFrame {
+    
+    private static InfDB idb;
 
     /**
      * Creates new form Start
      */
-    public Start() {
+    public Start(InfDB idb) {
         initComponents();
+        this.idb = idb;
     }
 
     /**
@@ -139,14 +142,8 @@ public class Start extends javax.swing.JFrame {
         // TODO add your handling code here:
         
         this.dispose();
-        AdminInloggning admin = null;
-        try {
-            admin = new AdminInloggning();
-        } catch (Exception ex) {
-            Logger.getLogger(Start.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        new AdminInloggning(idb).setVisible(true);
         
-        admin.setVisible(true);
         
     }//GEN-LAST:event_jButton3ActionPerformed
 
@@ -154,6 +151,7 @@ public class Start extends javax.swing.JFrame {
         // TODO add your handling code here:
         
         this.dispose();
+        new TestSQLfrågor(idb).setVisible(true);
         
         
     }//GEN-LAST:event_testButtonActionPerformed
