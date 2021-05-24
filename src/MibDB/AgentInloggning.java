@@ -1,4 +1,8 @@
 package MibDB;
+import oru.inf.InfDB;
+import oru.inf.InfException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 import java.awt.HeadlessException;
@@ -23,6 +27,8 @@ import javax.swing.JOptionPane;
  * @author macbook
  */
 public class AgentInloggning extends javax.swing.JFrame {
+    
+    private InfDB idb;
 
     ResultSet resultat = null;
     Statement statement = null;
@@ -30,26 +36,17 @@ public class AgentInloggning extends javax.swing.JFrame {
     Connection connection1 = null;
     /**
      * Creates new form AgentInloggning
+     * @param idb
      * @throws java.lang.Exception
      */
-    public AgentInloggning() throws Exception {
+    public AgentInloggning(InfDB idb){
         initComponents();
-        getConnection();
+        this.idb = idb;
+        
 
     }
     
-         public final void getConnection() throws Exception{
-        try{
-        Class.forName("com.mysql.cj.jdbc.Driver"); // Tror den hämtar mysql driver och gör det möjligt att koppla upp till databasen.
-             connection1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/mibdb", "mibdba", "mibkey"); // Denna ska också på något sätt
-             // koppa upp till databasen. Ingen kod är "röd" men osäker på om projektet inte funkar pga att jag är "disconnected" från databasen eller inte.
-             System.out.println("Databasen kopplad till projektet, lyckats!");
-            
-        }
-        catch(ClassNotFoundException e){
-            System.out.println(e);
-        }
-     }
+         
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -151,8 +148,7 @@ public class AgentInloggning extends javax.swing.JFrame {
                 
             if(resultat1.next()){
                     dispose();
-                    Agent agent = new Agent();
-                    agent.show();
+                    new Agent(idb).setVisible(true);
             }
             else{
                 JOptionPane.showMessageDialog(null, "ID / lösenord är felaktigt");
@@ -163,7 +159,8 @@ public class AgentInloggning extends javax.swing.JFrame {
         } catch (SQLException | HeadlessException ex) {
             Logger.getLogger(AgentInloggning.class.getName()).log(Level.SEVERE, null, ex);
         }
-    
+    this.dispose();
+    new Agent(idb).setVisible(true);
      
     }//GEN-LAST:event_jButton1ActionPerformed
 

@@ -12,6 +12,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
+import oru.inf.InfDB;
+import oru.inf.InfException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -23,6 +30,9 @@ import javax.swing.JOptionPane;
  * @author macbook
  */
 public class AlienInloggning extends javax.swing.JFrame {
+    
+    private InfDB idb;
+    
     ResultSet resultat = null;
     Statement statement = null;
     PreparedStatement prepStatement = null;
@@ -31,24 +41,13 @@ public class AlienInloggning extends javax.swing.JFrame {
      * Creates new form AlienInloggning
      * @throws java.lang.Exception
      */
-    public AlienInloggning() throws Exception {
+    public AlienInloggning(InfDB idb) {
         initComponents();
-        getConnection();
+        this.idb = idb;
 
     }
     
-     public final void getConnection() throws Exception{
-        try{
-        Class.forName("com.mysql.cj.jdbc.Driver"); // Tror den hämtar mysql driver och gör det möjligt att koppla upp till databasen.
-             connection1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/mibdb", "mibdba", "mibkey"); // Denna ska också på något sätt
-             // koppa upp till databasen. Ingen kod är "röd" men osäker på om projektet inte funkar pga att jag är "disconnected" från databasen eller inte.
-             System.out.println("Databasen kopplad till projektet, lyckats!");
-            
-        }
-        catch(ClassNotFoundException e){
-            System.out.println(e);
-        }
-     }
+     
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -151,8 +150,7 @@ public class AlienInloggning extends javax.swing.JFrame {
                 
             if(resultat1.next()){
                     dispose();
-                    Alien alien = new Alien();
-                    alien.show();
+                    new Alien(idb).setVisible(true);
             }
             else{
                 JOptionPane.showMessageDialog(null, "ID / lösenord är felaktigt");
@@ -163,46 +161,14 @@ public class AlienInloggning extends javax.swing.JFrame {
         } catch (SQLException | HeadlessException ex) {
             Logger.getLogger(AlienInloggning.class.getName()).log(Level.SEVERE, null, ex);
         }
-    
-     
+    this.dispose();
+    new Alien(idb).setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AlienInloggning.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AlienInloggning.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AlienInloggning.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AlienInloggning.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> {
-            try {
-                new AlienInloggning().setVisible(true);
-            } catch (Exception ex) {
-                Logger.getLogger(AlienInloggning.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        });
-    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

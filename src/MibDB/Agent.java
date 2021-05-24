@@ -1,8 +1,9 @@
 package MibDB;
-
-
+import oru.inf.InfDB;
+import oru.inf.InfException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -15,12 +16,15 @@ import java.util.logging.Logger;
  * @author macbook
  */
 public class Agent extends javax.swing.JFrame {
+    
+    private InfDB idb;
 
     /**
      * Creates new form Agent
      */
-    public Agent() {
+    public Agent(InfDB idb) {
         initComponents();
+        this.idb = idb;
     }
 
     /**
@@ -102,13 +106,7 @@ public class Agent extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
         this.dispose();
-        NyttLosenord nytt = null;
-        try {
-            nytt = new NyttLosenord();
-        } catch (Exception ex) {
-            Logger.getLogger(Start.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        nytt.setVisible(true);
+        new NyttLosenord(idb).setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     

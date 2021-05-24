@@ -1,4 +1,8 @@
 package MibDB;
+import oru.inf.InfDB;
+import oru.inf.InfException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -11,12 +15,15 @@ package MibDB;
  * @author macbook
  */
 public class Alien extends javax.swing.JFrame {
+    
+    private InfDB idb;
 
     /**
      * Creates new form Alian
      */
-    public Alien() {
+    public Alien(InfDB idb) {
         initComponents();
+        this.idb = idb;
     }
 
     /**
@@ -96,6 +103,8 @@ public class Alien extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        this.dispose();
+        new NyttLosenord(idb).setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
@@ -129,7 +138,7 @@ public class Alien extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Alien().setVisible(true);
+                ;
             }
         });
     }

@@ -1,4 +1,8 @@
 package MibDB;
+import oru.inf.InfDB;
+import oru.inf.InfException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -18,8 +22,6 @@ import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import oru.inf.InfDB;
-import oru.inf.InfException;
 
 
 
@@ -49,19 +51,6 @@ public class AdminInloggning extends javax.swing.JFrame {
     }
     
     
-    
-    public final void getConnection() throws Exception{
-        try{
-        Class.forName("com.mysql.cj.jdbc.Driver"); // Tror den hämtar mysql driver och gör det möjligt att koppla upp till databasen.
-             connection1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/mibdb", "mibdba", "mibkey"); // Denna ska också på något sätt
-             // koppa upp till databasen. Ingen kod är "röd" men osäker på om projektet inte funkar pga att jag är "disconnected" från databasen eller inte.
-             System.out.println("Databasen kopplad till projektet, lyckats!");
-            
-        }
-        catch(ClassNotFoundException e){
-            System.out.println(e);
-        }
-     }
     
 
     /**
@@ -182,7 +171,7 @@ public class AdminInloggning extends javax.swing.JFrame {
                 
             if(resultat1.next()){
                     dispose();
-                    Agent agent = new Agent();
+                    Agent agent = new Agent(idb);
                     agent.show();
             }
             else{
@@ -194,6 +183,9 @@ public class AdminInloggning extends javax.swing.JFrame {
         } catch (SQLException | HeadlessException ex) {
             Logger.getLogger(AgentInloggning.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        this.dispose();
+        new Admin(idb).setVisible(true);
         
     }//GEN-LAST:event_loggaInActionPerformed
 
