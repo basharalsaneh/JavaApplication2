@@ -121,6 +121,17 @@ public class Start extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
+        
+        this.dispose();
+        AdminInloggning admin = null;
+        try {
+            admin = new AdminInloggning();
+        } catch (Exception ex) {
+            Logger.getLogger(Start.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        admin.setVisible(true);
+        
     }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
