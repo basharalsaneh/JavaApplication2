@@ -9,7 +9,6 @@ import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import oru.inf.InfDB;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -27,21 +26,17 @@ public class AgentInloggning extends javax.swing.JFrame {
     Statement statement = null;
     PreparedStatement prepStatement = null;
     Connection connection1 = null;
-        private static InfDB idb;
-
     /**
      * Creates new form AgentInloggning
      * @throws java.lang.Exception
      */
-    public AgentInloggning(InfDB idb) throws Exception {
+    public AgentInloggning() throws Exception {
         initComponents();
-        //getConnection();
-        this.idb = idb;
-
+        getConnection();
 
     }
     
-    public final void getConnection() throws Exception{
+         public final void getConnection() throws Exception{
         try{
         Class.forName("com.mysql.cj.jdbc.Driver"); // Tror den hämtar mysql driver och gör det möjligt att koppla upp till databasen.
              connection1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/mibdb", "mibdba", "mibkey"); // Denna ska också på något sätt
@@ -157,7 +152,7 @@ public class AgentInloggning extends javax.swing.JFrame {
                 
             if(resultat1.next()){
                     dispose();
-                    Agent agent = new Agent(idb);
+                    Agent agent = new Agent();
                     agent.show();
             }
             else{
@@ -203,7 +198,7 @@ public class AgentInloggning extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
             try {
-                new AgentInloggning(idb).setVisible(true);
+                new AgentInloggning().setVisible(true);
             } catch (Exception ex) {
                 Logger.getLogger(AgentInloggning.class.getName()).log(Level.SEVERE, null, ex);
             }
