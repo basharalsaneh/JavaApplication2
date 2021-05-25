@@ -179,7 +179,7 @@ public class TestSQLfrågor extends javax.swing.JFrame {
         
         try {
         String id = txtfield.getText();
-        String fraga = "SELECT namn FROM Agent where Agent_ID =" + id;
+        String fraga = "SELECT losenord FROM Agent where Agent_ID =" + id;
         String svar = idb.fetchSingle(fraga);
         String resultat = svar;
         txtRuta.setText(resultat);

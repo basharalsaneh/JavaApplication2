@@ -6,6 +6,12 @@
 package MibDB;
 
 import oru.inf.InfDB;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import oru.inf.InfException;
 
 /**
  *
@@ -57,6 +63,11 @@ public class TestInloggning extends javax.swing.JFrame {
         txtLosen.setText("Lösen");
 
         gaTillbaka.setText("Gå tillbaka");
+        gaTillbaka.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                gaTillbakaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -106,15 +117,61 @@ public class TestInloggning extends javax.swing.JFrame {
     private void loggaInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loggaInActionPerformed
         // TODO add your handling code here:
         
+        boolean godkandLosen = false;
+        
         // 1. Läsa av text i ID
         
+        String user = txtID.getText();
+        
         // 2. Läsa av text i Lösenord
+        
+        String password = txtLosen.getText();
+        System.out.println("Lösenordet inskrivet i rutan " + password);
+        
+        String fraga = "SELECT losenord FROM Agent where Agent_id =" + user;
+        
+        
+        try {
+            String svar = idb.fetchSingle(fraga);
+            System.out.println("svaret på SQL-frågan " + svar);
+            
+            
+            if(password.equals(svar)){
+                
+                godkandLosen = true;
+                System.out.println(godkandLosen);
+                new sidaattkommatill(idb).setVisible(true);
+            }
+        else {
+                JOptionPane.showMessageDialog(null, "ID / lösenord är felaktigt");
+            }
+        
+            
+            
+            
+        } catch (InfException ex) {
+            Logger.getLogger(TestInloggning.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        
+        
+        
+        
         
         
         
         
         
     }//GEN-LAST:event_loggaInActionPerformed
+
+    private void gaTillbakaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gaTillbakaActionPerformed
+        // TODO add your handling code here:
+        
+        
+        this.dispose();
+        new TestSQLfrågor(idb).setVisible(true);
+    }//GEN-LAST:event_gaTillbakaActionPerformed
 
     /**
      * @param args the command line arguments
